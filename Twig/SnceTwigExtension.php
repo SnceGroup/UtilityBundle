@@ -53,6 +53,16 @@ class SnceTwigExtension extends Twig_Extension
                 array(
                     'parentLocationId' => 2
                 )
+            ),
+            new \Twig_SimpleFunction(
+                'snce_utility_parent_content',
+                array(
+                    $this,
+                    'parentContent'
+                ),
+                array(
+                    'childContentId' => 2
+                )
             )
         );
     }
@@ -99,6 +109,33 @@ class SnceTwigExtension extends Twig_Extension
         $contentService = $this->repository->getContentService();
 
         $content = $contentService->loadContent( $locationService->loadLocation( $locationId )->{'contentInfo'}->{'id'} );
+
+        return $content;
+    }
+
+    /**
+     * Return parent content object
+     *
+     * @param string $childContentId
+     *
+     * @throws \RuntimeException
+     *
+     * @return \eZ\Publish\Core\Repository\Values\Content\Content
+     */
+    public function parentContent( $childContentId )
+    {
+        if ( !is_int( (int)$childContentId ) )
+        {
+            throw new RuntimeException( '$contentId must be an integer' );
+        }
+
+        $contentService = $this->repository->getContentService();
+        $locationService = $this->repository->getLocationService();
+
+        $childContent = $contentService->loadContent( (int)$childContentId );
+        $locations = $locationService->loadLocations( $childContent->contentInfo );
+
+        $content = $this->contentFromLocationId( $locations[0]->parentLocationId );
 
         return $content;
     }

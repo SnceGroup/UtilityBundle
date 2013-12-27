@@ -17,3 +17,11 @@ Particularly useful to retrive the parent content object
 ```twig
 snce_utility_content_from_locationId( location.parentLocationId )
 ```
+
+##snce_utility_parent_content
+Given a content id id the function return the parent content object  (\eZ\Publish\Core\Repository\Values\Content\Content)
+
+###Usage
+```twig
+snce_utility_parent_content( content.contentInfo.id )
+```
