@@ -1,0 +1,22 @@
+{
+    "name": "snce/utility-bundle",
+    "type": "symfony-bundle",
+    "description": "This Bundle provides a set of Twig functions and Symfony helpers to speed up the eZ 5 development process",
+    "keywords": ["ez", "ez publish", "utility"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "S'nce Group",
+            "homepage": "http://www.sncegroup.ch/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.3",
+        "ezsystems/ezpublish-kernel": "*"
+    },
+    "autoload": {
+        "psr-0": {"Snce\\UtilityBundle": ""}
+    },
+    "target-dir": "Snce/UtilityBundle"
+}
