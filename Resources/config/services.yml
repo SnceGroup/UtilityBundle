@@ -1,12 +1,16 @@
 parameters:
     snce_utility.search_helper.class: Snce\UtilityBundle\Helper\SearchHelper
+    snce_utility.ezrepository_helper.class: Snce\UtilityBundle\Helper\EzRepositoryHelper
     excluded_content_type: []
 services:
     snce_utility.search_helper:
         class: %snce_utility.search_helper.class%
         arguments: [@ezpublish.api.repository, %excluded_content_type%]
+    snce_utility.ezrepository_helper:
+        class: %snce_utility.ezrepository_helper.class%
+        arguments: [@ezpublish.api.repository]
     snce_utility.twig.extension:
         class: Snce\UtilityBundle\Twig\SnceTwigExtension
-        arguments: [@ezpublish.api.repository]
+        arguments: [@ezpublish.api.repository, @snce_utility.ezrepository_helper]
         tags:
             - { name: twig.extension }

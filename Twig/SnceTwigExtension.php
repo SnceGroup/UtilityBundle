@@ -8,10 +8,11 @@
 
 namespace Snce\UtilityBundle\Twig;
 
-use eZ\Publish\API\Repository\Repository;
-use Twig_Extension;
-use Twig_SimpleFunction;
-use RuntimeException;
+use eZ\Publish\API\Repository\Repository,
+    Snce\UtilityBundle\Helper\EzRepositoryHelper,
+    Twig_Extension,
+    Twig_SimpleFunction,
+    RuntimeException;
 
 class SnceTwigExtension extends Twig_Extension
 {
@@ -21,9 +22,15 @@ class SnceTwigExtension extends Twig_Extension
      */
     private $repository;
 
-    public function __construct( Repository $repository )
+    /**
+     * @var \Snce\UtilityBundle\Helper\EzRepositoryHelper
+     */
+    private $ezRepositoryHelper;
+
+    public function __construct( Repository $repository, EzRepositoryHelper $ezRepositoryHelper )
     {
         $this->repository = $repository;
+        $this->ezRepositoryHelper = $ezRepositoryHelper;
     }
 
     /**
@@ -70,7 +77,7 @@ class SnceTwigExtension extends Twig_Extension
     /**
      * Return content object
      *
-     * @param string $contentId
+     * @param mixed $contentId
      *
      * @throws \RuntimeException
      *
@@ -83,16 +90,13 @@ class SnceTwigExtension extends Twig_Extension
             throw new RuntimeException( '$contentId must be an integer' );
         }
 
-        $contentService = $this->repository->getContentService();
-
-        $content = $contentService->loadContent( (int)$contentId );
-        return $content;
+        return $this->ezRepositoryHelper->getContentFromContentId( (int)$contentId );
     }
 
     /**
      * Return a content object from a location id
      *
-     * @param integer $locationId
+     * @param mixed $locationId
      *
      * @throws \RuntimeException
      *
@@ -100,17 +104,12 @@ class SnceTwigExtension extends Twig_Extension
      */
     public function contentFromLocationId( $locationId )
     {
-        if ( !is_int( $locationId ) )
+        if ( !is_int( (int)$locationId ) )
         {
             throw new RuntimeException( '$locationId must be an integer' );
         }
 
-        $locationService = $this->repository->getLocationService();
-        $contentService = $this->repository->getContentService();
-
-        $content = $contentService->loadContent( $locationService->loadLocation( $locationId )->{'contentInfo'}->{'id'} );
-
-        return $content;
+        return $this->ezRepositoryHelper->getContentFromLocationId( (int)$locationId );
     }
 
     /**
@@ -126,18 +125,10 @@ class SnceTwigExtension extends Twig_Extension
     {
         if ( !is_int( (int)$childContentId ) )
         {
-            throw new RuntimeException( '$contentId must be an integer' );
+            throw new RuntimeException( '$childContentId must be an integer' );
         }
 
-        $contentService = $this->repository->getContentService();
-        $locationService = $this->repository->getLocationService();
-
-        $childContent = $contentService->loadContent( (int)$childContentId );
-        $locations = $locationService->loadLocations( $childContent->contentInfo );
-
-        $content = $this->contentFromLocationId( $locations[0]->parentLocationId );
-
-        return $content;
+        return $this->ezRepositoryHelper->getParentContentFromChildContentId( $childContentId );
     }
 
     /**
