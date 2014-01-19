@@ -13,7 +13,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
-        "ezsystems/ezpublish-kernel": "*"
+        "ezsystems/ezpublish-kernel": ">=v2013.09"
     },
     "require-dev": {
         "phpunit/phpunit": "~3"
