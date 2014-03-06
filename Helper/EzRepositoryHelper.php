@@ -108,6 +108,6 @@ class EzRepositoryHelper {
     public function getParentContentFromChildContentId( $childContentId )
     {
         $mainLocation = $this->getMainLocationFromContentId( $childContentId );
-        //return $this->getContentFromLocationId( $mainLocation->parentLocationId );
+        return $this->getContentFromLocationId( $mainLocation->parentLocationId );
     }
 } 
