@@ -5,7 +5,7 @@ eZ Publish Utility bundle, it contains Twig functions and Symfony Helpers
 
 Documentation
 -------------
-Documentstion is available in [doc folder](https://github.com/SnceGroup/UtilityBundle/tree/master/Resources/doc)
+Documentation is available in [doc folder](https://github.com/SnceGroup/UtilityBundle/tree/master/Resources/doc)
 
 License
 -------------
